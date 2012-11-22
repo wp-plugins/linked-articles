@@ -111,7 +111,7 @@ function linked_articles_content_rss($content) {
 
         $permalink = esc_url( get_permalink() );
         $text = linked_articles_option('permalink_text');
-        str_replace('{{PERMALINK}}', $permalink, $text);
+        $text = str_replace('{{PERMALINK}}', $permalink, $text);
 
         $content .= "\n".$text;
 
