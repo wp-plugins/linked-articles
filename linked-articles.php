@@ -8,7 +8,7 @@ Plugin Name: Linked Articles
 Plugin URI: http://maxime.sh/linked-articles
 Description: Easily attach a link to a post. The post permalink is replaced with the shared link.
 Author: Maxime Valette
-Version: 1.0
+Version: 1.1
 Author URI: http://www.maximevalette.com/
 */
 /*
@@ -77,8 +77,9 @@ function linked_articles_link_rss($permalink) {
     global $wp_query;
 
     $custom_field = linked_articles_option('custom_field');
+    $rss_keep = linked_articles_option('rss_keep', false);
 
-    if ($url = get_post_meta($wp_query->post->ID, $custom_field, true)) return $url;
+    if (!$rss_keep && $url = get_post_meta($wp_query->post->ID, $custom_field, true)) return $url;
 
     return $permalink;
 
@@ -126,9 +127,9 @@ add_filter('the_content', 'linked_articles_content_rss');
 add_filter('the_excerpt_rss', 'linked_articles_content_rss');
 add_filter('the_permalink_rss', 'linked_articles_link_rss');
 
-function linked_articles_option($option) {
+function linked_articles_option($option, $default=null) {
 
-    $o = get_option('linked_articles');
+    $o = get_option('linked_articles', $default);
 
     return $o[$option];
 
@@ -146,6 +147,7 @@ function linked_articles_settings() {
 		$o['permalink_text'] = stripslashes($_POST['permalink_text']);
 		$o['custom_field'] = stripslashes($_POST['custom_field']);
 		$o['title_template'] = stripslashes($_POST['title_template']);
+        $o['rss_keep'] = ($_POST['rss_keep'] == 'keep') ? true : false;
 
 		update_option('linked_articles', $o);
 
@@ -159,6 +161,7 @@ function linked_articles_settings() {
     $o['permalink_text'] = htmlspecialchars($o['permalink_text']);
     $o['custom_field'] = htmlspecialchars($o['custom_field']);
 	$o['title_template'] = htmlspecialchars($o['title_template']);
+    $o['rss_keep'] = ($o['rss_keep']) ? 'CHECKED' : '';
 
     echo <<<HTML
 
@@ -204,6 +207,11 @@ function linked_articles_settings() {
 <tr valign="top">
 <th scope="row"><p>Custom field name:</p></th>
 <td><input id="custom_field" maxlength="45" size="30" name="custom_field" value="{$o['custom_field']}" /></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><p>RSS Link:</p></th>
+<td><input id="rss_keep" type="checkbox" name="rss_keep" value="keep" {$o['rss_keep']}/> <label for="rss_keep">Don't change the post link in the RSS feed.</label></td>
 </tr>
 
 </table>
