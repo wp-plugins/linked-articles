@@ -1,14 +1,14 @@
 <?php
 /**
  * @package linked_articles
- * @version 1.0
+ * @version 1.2
  */
 /*
 Plugin Name: Linked Articles
 Plugin URI: http://maxime.sh/linked-articles
 Description: Easily attach a link to a post. The post permalink is replaced with the shared link.
 Author: Maxime Valette
-Version: 1.1
+Version: 1.2
 Author URI: http://www.maximevalette.com/
 */
 /*
@@ -60,9 +60,10 @@ function linked_articles_title() {
 
     $prefix = linked_articles_option('title_prefix');
 	$template = linked_articles_option('title_template');
+    $prefix_end = linked_articles_option('prefix_end', false);
 
 	if ($link != $perm) {
-		$title = $prefix.' '.$title;
+        $title = ($prefix_end) ? $title.' '.$prefix : $prefix.' '.$title;
 	}
 
 	$template = str_replace('{{LINK}}', $link, $template);
@@ -94,7 +95,9 @@ function linked_articles_title_rss($title) {
     if ($url = get_post_meta($wp_query->post->ID, $custom_field, true)) {
 
         $prefix = linked_articles_option('title_prefix');
-        $title = $prefix.' '.$title;
+        $prefix_end = linked_articles_option('prefix_end', false);
+        
+        $title = ($prefix_end) ? $title.' '.$prefix : $prefix.' '.$title;
 
     }
 
@@ -148,6 +151,7 @@ function linked_articles_settings() {
 		$o['custom_field'] = stripslashes($_POST['custom_field']);
 		$o['title_template'] = stripslashes($_POST['title_template']);
         $o['rss_keep'] = ($_POST['rss_keep'] == 'keep') ? true : false;
+        $o['prefix_end'] = ($_POST['prefix_end'] == 'end') ? true : false;
 
 		update_option('linked_articles', $o);
 
@@ -162,6 +166,7 @@ function linked_articles_settings() {
     $o['custom_field'] = htmlspecialchars($o['custom_field']);
 	$o['title_template'] = htmlspecialchars($o['title_template']);
     $o['rss_keep'] = ($o['rss_keep']) ? 'CHECKED' : '';
+    $o['prefix_end'] = ($o['prefix_end']) ? 'CHECKED' : '';
 
     echo <<<HTML
 
@@ -207,6 +212,11 @@ function linked_articles_settings() {
 <tr valign="top">
 <th scope="row"><p>Custom field name:</p></th>
 <td><input id="custom_field" maxlength="45" size="30" name="custom_field" value="{$o['custom_field']}" /></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><p>Prefix:</p></th>
+<td><input id="prefix_end" type="checkbox" name="prefix_end" value="end" {$o['prefix_end']}/> <label for="prefix_end">Add the prefix at the end of the title instead of the beginning.</label></td>
 </tr>
 
 <tr valign="top">

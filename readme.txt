@@ -1,10 +1,10 @@
 === Linked Articles ===
 Contributors: maximevalette
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=maxime%40maximevalette%2ecom&lc=FR&item_name=Maxime%20Valette&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
+Donate link: http://maxime.sh/paypal
 Tags: links, posts, articles, linked articles, linked posts, linked list, daring fireball, gruber
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 1.1
+Stable tag: 1.2
 
 Easily attach a link to a post. The post permalink is replaced with the shared link and a prefix is added.
 
@@ -30,6 +30,9 @@ I'm using it on my own blog and I don't have any problem. Please let me know abo
 Of course. The `linked_articles_title()` function uses the final return of `the_title()` function so all the filters created by other extensions still apply.
 
 == Changelog ==
+
+= 1.2 =
+* Added an option to have the "prefix" at the end of the title.
 
 = 1.1 =
 * Added an option to disable the RSS feed link change.
