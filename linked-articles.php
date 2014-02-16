@@ -179,6 +179,8 @@ function linked_articles_settings() {
 
 <p>You can edit all the settings of the displayed text with Linked Articles.</p>
 
+<p><strong>Note:</strong> Don't forget to edit your theme files to replace your post titles by <code>&lt;?php linked_articles_title() ?&gt;</code>.</p>
+
 <form method="POST">
 
 <table class="form-table">
