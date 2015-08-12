@@ -3,7 +3,7 @@ Contributors: maximevalette
 Donate link: http://maxime.sh/paypal
 Tags: links, posts, articles, linked articles, linked posts, linked list, daring fireball, gruber
 Requires at least: 3.0
-Tested up to: 4.0
+Tested up to: 4.3
 Stable tag: 1.2
 
 Easily attach a link to a post. The post permalink is replaced with the shared link and a prefix is added.
